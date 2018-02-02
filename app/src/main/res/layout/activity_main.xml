@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.example.chawki.imctest.MainActivity"
+    tools:ignore="HardcodedText">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Poids"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/activity_main_inputPoids_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Donnez votre poids (Kg)"
+            android:inputType="number|numberDecimal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Taille"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/activity_main_inputTaille_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Donnez votre taille (Cm ou M)"
+            android:inputType="number|numberDecimal" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/activity_main_centimetre_radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:checked="true"
+            android:text="Centimetre" />
+
+        <RadioButton
+            android:id="@+id/activity_main_metre_radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:text="Metre" />
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/activity_main_confirmer_checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmer" />
+
+    <Button
+        android:id="@+id/activity_main_calculer_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculer" />
+
+    <Button
+        android:id="@+id/activity_main_reset_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Résultat:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activity_main_resultat_textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Vous devez cliquer sur le bouton « Calculer l'IMC » pour obtenir un résultat."
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="italic" />
+
+</LinearLayout>
