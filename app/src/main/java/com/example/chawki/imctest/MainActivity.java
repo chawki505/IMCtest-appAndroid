@@ -2,6 +2,8 @@ package com.example.chawki.imctest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,9 +12,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
+
 public class MainActivity extends AppCompatActivity {
 
-
+    private DecimalFormat df = new DecimalFormat("##.##");
     private EditText mPoids;
     private EditText mTaille;
     private RadioButton mCentimetre;
@@ -22,6 +27,23 @@ public class MainActivity extends AppCompatActivity {
     private Button mReset;
     private TextView mResultat;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.menu_test, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.menu_item_action_close == item.getItemId()) {
+            finish();
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,22 +133,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private float calculePoidIdeal(float imc) {
+        // On récupère le poids
+        float poidsValue = Float.valueOf(mPoids.getText().toString());
+        float tailleValue = Float.valueOf(mTaille.getText().toString());
+
+        if (mCentimetre.isChecked()) {
+            tailleValue = tailleValue / 100;
+        }
+
+        float poidIdealImcMoin = (float) (18.5 * Math.pow(tailleValue, 2));
+        float poidIdealImcPlus = (float) (24.9 * Math.pow(tailleValue, 2));
+
+
+        if (imc < 18.5) {
+            return poidIdealImcMoin - poidsValue;
+        } else if (imc > 25) {
+            return poidsValue - poidIdealImcPlus;
+        }
+        return 0;
+    }
+
+
     //fonction pour afficher un msg de l'imc
     private void setMessageIMC(float imc) {
         if (imc < 16.5)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = dénutrition ou anorexie"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  dénutrition ou anorexie"
+                    + "\n il faut  imperativement gagner " + df.format(calculePoidIdeal(imc)) + " Kg."));
         else if (imc >= 16.5 && imc < 18.5)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = maigreur"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  maigreur"
+                    + "\n il faut gagner " + df.format(calculePoidIdeal(imc)) + " Kg."));
         else if (imc >= 18.5 && imc < 25)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = corpulence normale"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  corpulence normale"));
         else if (imc >= 25 && imc < 30)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = surpoids"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  surpoids"
+                    + "\n il faut perdre " + df.format(calculePoidIdeal(imc)) + " Kg."));
         else if (imc >= 30 && imc < 35)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = obésité modérée"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  obésité modérée"
+                    + "\n il faut vraiment perdre " + df.format(calculePoidIdeal(imc)) + " Kg."));
         else if (imc >= 35 && imc < 40)
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = obésité sévère"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  obésité sévère"
+                    + "\n il faut imperativement perdre " + df.format(calculePoidIdeal(imc)) + " Kg."));
         else
-            mResultat.setText(("Votre IMC est " + String.valueOf(imc) + "\n  = obésité morbide ou massive"));
+            mResultat.setText(("Votre IMC est " + df.format(imc) + "\n  obésité morbide ou massive"
+                    + "\n il faut imperativement perdre " + df.format(calculePoidIdeal(imc)) + " Kg. \n la mort vous guette"));
 
 
     }
