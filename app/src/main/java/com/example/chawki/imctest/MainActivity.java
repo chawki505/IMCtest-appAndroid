@@ -1,10 +1,12 @@
 package com.example.chawki.imctest;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,23 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mReset;
     private TextView mResultat;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //ajoute les entrées de menu_test à l'ActionBar
-        getMenuInflater().inflate(R.menu.menu_test, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (R.id.menu_item_action_close == item.getItemId()) {
-            finish();
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +41,24 @@ public class MainActivity extends AppCompatActivity {
         mConfirmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                closeKeyBoard();
                 if (mConfirmer.isChecked())
                     mCalculer.setEnabled(true);
                 else
                     mCalculer.setEnabled(false);
+
             }
         });
 
         mCalculer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeKeyBoard();
                 if (!mTaille.getText().toString().isEmpty() && !mPoids.getText().toString().isEmpty())
                     calculerIMC();
                 else
-                    Toast.makeText(MainActivity.this, "Hého, tu es un Minipouce ou quoi ?" +
-                            "\n donne ton poid et ta taille correctement", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Donnez un poids et une taille valide !", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -84,6 +72,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.menu_test, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.menu_item_action_close == item.getItemId()) {
+            finish();
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 
     //fonction pour faire la relation entre les fichier XML et lactivité
     private void init() {
@@ -110,6 +116,13 @@ public class MainActivity extends AppCompatActivity {
         mMetre.setChecked(false);
     }
 
+    //fermer le clavier
+    private void closeKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.hideSoftInputFromWindow(mPoids.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mTaille.getWindowToken(), 0);
+    }
 
     //fonction pour calculer IMC
     private void calculerIMC() {
