@@ -5,4 +5,15 @@
     <string name="action_settings">action_settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_close">action_close</string>
+    <string name="poids">Poids</string>
+    <string name="donnez_votre_poids_kg">Donnez votre poids (Kg)</string>
+    <string name="taille">Taille</string>
+    <string name="donnez_votre_taille_cm_ou_m">Donnez votre taille (Cm ou M)</string>
+    <string name="centimetre">Centimetre</string>
+    <string name="metre">Metre</string>
+    <string name="confirmer">Confirmer</string>
+    <string name="calculer">Calculer</string>
+    <string name="reset">Reset</string>
+    <string name="r_sultat">Résultat:</string>
+    <string name="vous_devez_cliquer_sur_le_bouton_calculer_l_imc_pour_obtenir_un_r_sultat">Vous devez cliquer sur le bouton « Calculer l\'IMC » pour obtenir un résultat.</string>
 </resources>

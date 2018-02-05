@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,9 +18,10 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DecimalFormat df = new DecimalFormat("##.##");
+
     private EditText mPoids;
     private EditText mTaille;
     private RadioButton mCentimetre;
@@ -30,48 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView mResultat;
 
 
+    //cree l'interface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
-
-
-        mConfirmer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                closeKeyBoard();
-                if (mConfirmer.isChecked())
-                    mCalculer.setEnabled(true);
-                else
-                    mCalculer.setEnabled(false);
-
-            }
-        });
-
-        mCalculer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeKeyBoard();
-                if (!mTaille.getText().toString().isEmpty() && !mPoids.getText().toString().isEmpty())
-                    calculerIMC();
-                else
-                    Toast.makeText(MainActivity.this, "Donnez un poids et une taille valide !", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        mReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reset();
-            }
-        });
-
     }
 
+
+    //creer le menu bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //ajoute les entrées de menu_test à l'ActionBar
@@ -80,18 +51,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //option des item du menu bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (R.id.menu_item_action_close == item.getItemId()) {
             finish();
-
         }
 
 
         return super.onOptionsItemSelected(item);
     }
 
-    //fonction pour faire la relation entre les fichier XML et lactivité
+    //gestion des cliques commun
+    @Override
+    public void onClick(View v) {
+
+        closeKeyBoard();
+
+        switch (v.getId()) {
+
+            case R.id.activity_main_confirmer_checkBox:
+                if (mConfirmer.isChecked())
+                    mCalculer.setEnabled(true);
+                else
+                    mCalculer.setEnabled(false);
+                break;
+
+
+            case R.id.activity_main_calculer_btn:
+                if (!mTaille.getText().toString().isEmpty() && !mPoids.getText().toString().isEmpty())
+                    calculerIMC();
+                else
+                    Toast.makeText(MainActivity.this, "Donnez un poids et une taille valide !", Toast.LENGTH_LONG).show();
+                break;
+
+
+            case R.id.activity_main_reset_btn:
+                reset();
+                break;
+
+        }
+    }
+
+
+    //fonction pour faire la relation entre les fichier XML et l'activité
     private void init() {
         mPoids = findViewById(R.id.activity_main_inputPoids_editText);
         mTaille = findViewById(R.id.activity_main_inputTaille_editText);
@@ -101,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
         mCalculer = findViewById(R.id.activity_main_calculer_btn);
         mReset = findViewById(R.id.activity_main_reset_btn);
         mResultat = findViewById(R.id.activity_main_resultat_textView);
+
+        mCentimetre.setOnClickListener(this);
+        mMetre.setOnClickListener(this);
+        mConfirmer.setOnClickListener(this);
+        mCalculer.setOnClickListener(this);
+        mReset.setOnClickListener(this);
+
         reset();
     }
 
@@ -109,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private void reset() {
         mPoids.getText().clear();
         mTaille.getText().clear();
-        mResultat.setText(("Vous devez cliquer sur le bouton « Calculer l'IMC » pour obtenir un résultat."));
+        mResultat.setText(("Vous devez cliquer sur le bouton « Calculer IMC » pour obtenir un résultat."));
         mConfirmer.setChecked(false);
         mCalculer.setEnabled(false);
         mCentimetre.setChecked(true);
@@ -146,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //pour calculer le poid a perdre ou a gagné en fonction du IMC
     private float calculePoidIdeal(float imc) {
         // On récupère le poids
         float poidsValue = Float.valueOf(mPoids.getText().toString());
